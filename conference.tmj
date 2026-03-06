@@ -307,7 +307,7 @@
                         {
                          "name":"openWebsiteTriggerMessage",
                          "type":"string",
-                         "value":"Press SPACE to open Mossverse Vote"
+                         "value":"Press SPACE to open Mossland Homepage"
                         }, 
                         {
                          "name":"silent",
@@ -375,7 +375,7 @@
                         {
                          "name":"default",
                          "type":"string",
-                         "value":"https:\/\/vote.dev.wa.moss.land"
+                         "value":"https:\/\/moss.land"
                         }, 
                         {
                          "name":"description",
