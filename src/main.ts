@@ -1,5 +1,7 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
+import "./roofs";
+import "./meeting/doors";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.info('Script started successfully');
