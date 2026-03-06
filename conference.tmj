@@ -375,7 +375,7 @@
                         {
                          "name":"default",
                          "type":"string",
-                         "value":"https:\/\/moss.land"
+                         "value":"https:\/\/vote.dev.wa.moss.land"
                         }, 
                         {
                          "name":"description",
