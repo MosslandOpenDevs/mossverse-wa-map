@@ -2370,7 +2370,7 @@
                 {
                  "height":216,
                  "id":1088,
-                 "name":"silentZone",
+                 "name":"silentArea",
                  "properties":[
                         {
                          "name":"silent",
@@ -2378,7 +2378,7 @@
                          "value":true
                         }],
                  "rotation":0,
-                 "type":"zone",
+                 "type":"area",
                  "visible":true,
                  "width":252,
                  "x":3234,
