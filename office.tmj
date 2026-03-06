@@ -679,11 +679,11 @@
         {
          "columns":6,
          "firstgid":1827,
-         "image":"tilesets\/WA_Logo_Long.png",
+         "image":"tilesets\/mossland_Logo_Long.png",
          "imageheight":32,
          "imagewidth":192,
          "margin":0,
-         "name":"WA_Logo_Long",
+         "name":"mossland_Logo_Long",
          "spacing":0,
          "tilecount":6,
          "tileheight":32,
