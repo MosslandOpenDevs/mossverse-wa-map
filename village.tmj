@@ -2366,6 +2366,23 @@
                  "width":32,
                  "x":3518,
                  "y":2240
+                }, 
+                {
+                 "height":216,
+                 "id":1088,
+                 "name":"silentZone",
+                 "properties":[
+                        {
+                         "name":"silent",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"zone",
+                 "visible":true,
+                 "width":252,
+                 "x":3234,
+                 "y":2788
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -4884,7 +4901,7 @@
          "name":"roof1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":200,
          "x":0,
          "y":0
@@ -5414,7 +5431,7 @@
          "y":0
         }],
  "nextlayerid":157,
- "nextobjectid":1088,
+ "nextobjectid":1089,
  "orientation":"orthogonal",
  "properties":[
         {
