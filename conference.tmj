@@ -307,7 +307,7 @@
                         {
                          "name":"openWebsiteTriggerMessage",
                          "type":"string",
-                         "value":"Press SPACE or touch here to open a custom website"
+                         "value":"Press SPACE to open Mossverse Vote"
                         }],
                  "rotation":0,
                  "type":"area",
@@ -370,7 +370,7 @@
                         {
                          "name":"default",
                          "type":"string",
-                         "value":"https:\/\/workadventu.re\/admin-guide\/streaming-conferences"
+                         "value":"https:\/\/vote.dev.wa.moss.land"
                         }, 
                         {
                          "name":"description",
