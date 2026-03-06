@@ -8,7 +8,8 @@
     "dev": "vite --config web.vite.config.ts",
     "buildmap": "tsc && vite build --config buildmap.vite.config.ts",
     "upload": "npm run buildmap && upload-wa-map",
-    "upload-only": "upload-wa-map"
+    "upload-only": "upload-wa-map",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -19,6 +20,7 @@
     "@workadventure/upload-maps": "^1.7.4",
     "dotenv": "^16.3.1",
     "express": "^5.2.1",
+    "patch-package": "^8.0.1",
     "typescript": "^5.9.2",
     "vite": "^7.3.0",
     "vite-plugin-node": "^7.0.0"

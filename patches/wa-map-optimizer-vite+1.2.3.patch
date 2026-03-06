@@ -1,0 +1,18 @@
+diff --git a/node_modules/wa-map-optimizer-vite/dist/index.js b/node_modules/wa-map-optimizer-vite/dist/index.js
+index b7f2d03..f02e3cf 100644
+--- a/node_modules/wa-map-optimizer-vite/dist/index.js
++++ b/node_modules/wa-map-optimizer-vite/dist/index.js
+@@ -164,9 +164,12 @@ function mapOptimizer(mapPath, map, distFolder, optimizeOptions, baseDistPath, p
+                     }
+                 }
+             }
++            /*
+             await fs.promises.mkdir(path.dirname(optimizedMapFilePath), { recursive: true }).then(() => {
+                 fs.promises.writeFile(optimizedMapFilePath, JSON.stringify(optimizedMap));
+-            });
++            });*/
++            await fs.promises.mkdir(path.dirname(optimizedMapFilePath), { recursive: true });
++            await fs.promises.writeFile(optimizedMapFilePath, JSON.stringify(optimizedMap));
+         },
+         async closeBundle() {
+             const mapName = path.parse(mapPath).name;
