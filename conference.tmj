@@ -308,6 +308,11 @@
                          "name":"openWebsiteTriggerMessage",
                          "type":"string",
                          "value":"Press SPACE to open Mossverse Vote"
+                        }, 
+                        {
+                         "name":"silent",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"area",
