@@ -7,6 +7,13 @@ type RoofConfig = {
     layers: string[];
 };
 
+type AreaBounds = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+};
+
 const roofConfigs: RoofConfig[] = [
     {
         area: "roof_conference_area",
@@ -40,24 +47,43 @@ const setLayersVisible = (layers: string[], visible: boolean) => {
     }
 };
 
+const isInsideArea = (position: { x: number; y: number }, area: AreaBounds) => {
+    return (
+        position.x >= area.x &&
+        position.x < area.x + area.width &&
+        position.y >= area.y &&
+        position.y < area.y + area.height
+    );
+};
+
 WA.onInit()
-    .then(() => {
+    .then(async () => {
+        const initialPosition = await WA.player.getPosition();
+
         for (const config of roofConfigs) {
-            let activeVisitors = 0;
+            const area = await WA.room.area.get(config.area);
+            let isInside = isInsideArea(initialPosition, area);
+
+            setLayersVisible(config.layers, !isInside);
 
             WA.room.area.onEnter(config.area).subscribe(() => {
-                activeVisitors += 1;
-                if (activeVisitors === 1) {
-                    setLayersVisible(config.layers, false);
-                }
+                if (isInside) return;
+                isInside = true;
+                setLayersVisible(config.layers, false);
             });
 
             WA.room.area.onLeave(config.area).subscribe(() => {
-                activeVisitors = Math.max(0, activeVisitors - 1);
-                if (activeVisitors === 0) {
-                    setLayersVisible(config.layers, true);
-                }
+                if (!isInside) return;
+                isInside = false;
+                setLayersVisible(config.layers, true);
             });
+        }
+
+        const silentOfficeArea = await WA.room.area.get("silentOffice_area");
+        if (isInsideArea(initialPosition, silentOfficeArea)) {
+            WA.room.showLayer("silentOverlay");
+        } else {
+            WA.room.hideLayer("silentOverlay");
         }
 
         WA.room.area.onEnter("silentOffice_area").subscribe(() => {
