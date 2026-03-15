@@ -2404,12 +2404,12 @@
                         {
                          "name":"default",
                          "type":"string",
-                         "value":"https:\/\/www.gameslol.net\/data\/emul\/retro\/load.php?sys=snk-neo-geo&r=mslugx.zip"
+                         "value":"https:\/\/metaverse-game.moss.land"
                         }, 
                         {
                          "name":"label",
                          "type":"string",
-                         "value":"Game Office URL"
+                         "value":"Mossland Metaverse Game Portal URL"
                         }, 
                         {
                          "name":"persist",
