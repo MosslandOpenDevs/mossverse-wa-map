@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Mossverse Analytics Bridge</title>
+    <!--
+      WA 맵의 embedded website (iframe)으로 로드됩니다.
+      WA script sandbox 제약을 우회하여 GA4로 이벤트를 전송합니다.
+
+      맵 설정 (Tiled):
+        - embedded website로 이 파일 URL 추가
+        - allowApi: true
+        - 크기: 1x1 타일, 보이지 않는 위치에 배치
+    -->
+
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZ2G3PKPEK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MZ2G3PKPEK', {
+        // SPA 모드: 자동 page_view 끄고 직접 보냄
+        send_page_view: false
+      });
+    </script>
+
+    <!-- WA iframe API -->
+    <script src="https://dev.wa.moss.land/iframe_api.js"></script>
+
+    <style>
+      body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+</head>
+<body>
+<script>
+(function () {
+  "use strict";
+
+  const HEARTBEAT_INTERVAL_MS = 60_000; // 1분
+  let sessionStartTime = null;
+  let heartbeatTimer = null;
+
+  // ========================================
+  // 식별자
+  // ========================================
+
+  function getOrCreateGuestId() {
+    const KEY = "mossverse_guest_id";
+    let gid = null;
+    try { gid = localStorage.getItem(KEY); } catch (e) {}
+    if (!gid) {
+      gid = "g_" + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+      try { localStorage.setItem(KEY, gid); } catch (e) {}
+    }
+    return gid;
+  }
+
+  async function getLoggedInId(jwtPayload) {
+    if (!jwtPayload) return null;
+    const sub = jwtPayload.sub || jwtPayload.wallet || null;
+    if (!sub) return null;
+    const encoded = new TextEncoder().encode(sub);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+    return "u_" + hashHex.slice(0, 16);
+  }
+
+  function parseJwtFromCookie() {
+    try {
+      const match = document.cookie.match(/mossverse_jwt=([^;]+)/);
+      if (!match) return null;
+      const payload = match[1].split(".")[1];
+      return JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // ========================================
+  // 메인
+  // ========================================
+
+  WA.onInit().then(async () => {
+    sessionStartTime = Date.now();
+
+    // --- 식별 ---
+    const jwt = parseJwtFromCookie();
+    const loggedInId = await getLoggedInId(jwt);
+    const guestId = getOrCreateGuestId();
+    const distinctId = loggedInId || guestId;
+    const authType = loggedInId ? "login" : "guest";
+
+    // room 정보
+    const roomId = WA.room.id || "unknown";
+    const mapUrl = WA.room.mapURL || "unknown";
+    const hashParams = WA.room.hashParameters || "";
+
+    // --- GA4 user 설정 ---
+    gtag('set', 'user_properties', {
+      auth_type: authType,
+      user_distinct_id: distinctId
+    });
+    // user_id는 로그인 유저만
+    if (loggedInId) {
+      gtag('config', 'G-MZ2G3PKPEK', {
+        user_id: loggedInId,
+        send_page_view: false
+      });
+    }
+
+    // --- page_view (방 진입) ---
+    gtag('event', 'page_view', {
+      page_title: roomId,
+      page_location: mapUrl
+    });
+
+    // --- session_start ---
+    gtag('event', 'session_start_custom', {
+      room: roomId,
+      auth_type: authType,
+      entry_source: hashParams || "direct"
+    });
+
+    // --- heartbeat (체류시간 보정) ---
+    heartbeatTimer = setInterval(() => {
+      gtag('event', 'heartbeat', {
+        room: roomId,
+        duration_sec: Math.floor((Date.now() - sessionStartTime) / 1000)
+      });
+    }, HEARTBEAT_INTERVAL_MS);
+
+    // --- area 이벤트 ---
+    WA.room.area.onEnter("*").subscribe((area) => {
+      gtag('event', 'area_enter', {
+        area_name: area || "unknown",
+        room: roomId
+      });
+    });
+
+    WA.room.area.onLeave("*").subscribe((area) => {
+      gtag('event', 'area_leave', {
+        area_name: area || "unknown",
+        room: roomId
+      });
+    });
+
+    // --- 종료 감지 ---
+    function sendSessionEnd() {
+      if (!sessionStartTime) return;
+      const durationSec = Math.floor((Date.now() - sessionStartTime) / 1000);
+
+      // sendBeacon으로 GA4 Measurement Protocol 전송
+      const payload = new URLSearchParams({
+        v: '2',
+        tid: 'G-MZ2G3PKPEK',
+        cid: distinctId,
+        en: 'session_end_custom',
+        'ep.room': roomId,
+        'ep.auth_type': authType,
+        'ep.duration_sec': durationSec.toString()
+      });
+      navigator.sendBeacon(
+        'https://www.google-analytics.com/g/collect?' + payload.toString()
+      );
+
+      sessionStartTime = null;
+      clearInterval(heartbeatTimer);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") sendSessionEnd();
+    });
+    window.addEventListener("pagehide", sendSessionEnd);
+  });
+})();
+</script>
+</body>
+</html>
