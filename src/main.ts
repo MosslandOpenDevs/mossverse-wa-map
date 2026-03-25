@@ -1,5 +1,12 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
+// GA4 타입 선언
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 import "./roofs";
 import "./meeting/doors";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
@@ -19,7 +26,7 @@ WA.onInit().then(() => {
     script.async = true;
     script.onload = () => {
         window.dataLayer = window.dataLayer || [];
-        function gtag(...args: any[]) { window.dataLayer.push(arguments); }
+        function gtag(..._args: any[]) { window.dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-MZ2G3PKPEK');
         gtag('event', 'session_start_custom', {
