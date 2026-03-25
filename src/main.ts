@@ -13,6 +13,17 @@ WA.onInit().then(() => {
     console.info('Scripting API ready');
     console.info('Player tags: ',WA.player.tags)
 
+    // GA4 Analytics (숨겨진 cowebsite로 로드)
+    WA.nav.openCoWebSite(
+        'https://dev.wa.moss.land/map-storage/mossverse/analytics-ga4.html',
+        true,   // allowApi
+        '',     // allowPolicy
+        0,      // widthPercent (0 = 최소)
+        0,      // position (첫 번째 슬롯)
+        false,  // closable
+        false   // lazy
+    );
+
     WA.room.area.onEnter('clock').subscribe(() => {
         const today = new Date();
         const time = today.getHours() + ":" + today.getMinutes();
