@@ -13,16 +13,24 @@ WA.onInit().then(() => {
     console.info('Scripting API ready');
     console.info('Player tags: ',WA.player.tags)
 
-    // GA4 Analytics (숨겨진 cowebsite로 로드)
-    WA.nav.openCoWebSite(
-        'https://dev.wa.moss.land/map-storage/mossverse/analytics-ga4.html',
-        true,   // allowApi
-        '',     // allowPolicy
-        0,      // widthPercent (0 = 최소)
-        0,      // position (첫 번째 슬롯)
-        false,  // closable
-        false   // lazy
-    );
+    // --- GA4 ---
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MZ2G3PKPEK';
+    script.async = true;
+    script.onload = () => {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(...args: any[]) { window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MZ2G3PKPEK');
+        gtag('event', 'session_start_custom', {
+            room: WA.room.id || 'unknown',
+        });
+        console.info('GA4 loaded in main.ts');
+    };
+    script.onerror = () => {
+        console.error('GA4 failed to load - sandbox may be blocking');
+    };
+    document.head.appendChild(script);
 
     WA.room.area.onEnter('clock').subscribe(() => {
         const today = new Date();
