@@ -6,7 +6,7 @@ WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit]
 
 | Repository | Purpose |
 |---|---|
-| [mossverse-wa-infra](https://github.com/mikim/mossverse-wa-infra) | Infrastructure and deployment documentation |
+| [mossverse-wa-infra](https://github.com/MosslandCore/mossverse-wa-infra) | Infrastructure and deployment documentation |
 | [map-starter-kit](https://github.com/workadventure/map-starter-kit) | Original WorkAdventure starter project |
 | [wa-village](https://github.com/workadventure/wa-village) | Upstream source for the `village.tmj` map |
 
