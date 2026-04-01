@@ -1,14 +1,10 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
-type Gtag = (...args: unknown[]) => void;
-
 const GA4_MEASUREMENT_ID = "G-MZ2G3PKPEK";
-const GA4_SCRIPT_SRC = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
 
 declare global {
   interface Window {
-    dataLayer: unknown[][];
-    gtag?: Gtag;
+    dataLayer: any[];
   }
 }
 
@@ -20,62 +16,24 @@ console.info("Script started successfully");
 
 let currentPopup: any = undefined;
 
-function getGtag(): Gtag {
-    window.dataLayer = window.dataLayer || [];
-    if (!window.gtag) {
-        window.gtag = (...args: unknown[]) => {
-            window.dataLayer.push(args);
-        };
-    }
-
-    return window.gtag;
-}
-
-function getRoomAnalyticsContext() {
-    const roomId = WA.room.id || "unknown";
-    const mapUrl = WA.room.mapURL || window.location.href;
-    const entrySource = new URLSearchParams(WA.room.hashParameters).toString() || "direct";
-
-    let pagePath = `/${roomId}`;
-    try {
-        const parsedMapUrl = new URL(mapUrl, window.location.href);
-        pagePath = `${parsedMapUrl.pathname}${parsedMapUrl.hash}` || pagePath;
-    } catch (_error) {
-        console.warn("Failed to parse WA.room.mapURL for GA4 page_path", mapUrl);
-    }
-
-    return {
-        roomId,
-        mapUrl,
-        pagePath,
-        entrySource,
-    };
-}
-
 function initializeGa4(): void {
-    const gtag = getGtag();
     const script = document.createElement("script");
-
-    gtag("js", new Date());
-    gtag("config", GA4_MEASUREMENT_ID, {
-        send_page_view: false,
-    });
-
-    script.src = GA4_SCRIPT_SRC;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
     script.async = true;
     script.onload = () => {
-        const { roomId, mapUrl, pagePath, entrySource } = getRoomAnalyticsContext();
+        window.dataLayer = window.dataLayer || [];
+        function gtag(..._args: any[]) { window.dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", GA4_MEASUREMENT_ID);
 
+        const roomId = WA.room.id || "unknown";
         gtag("event", "page_view", {
             page_title: roomId,
-            page_location: mapUrl,
-            page_path: pagePath,
+            page_location: WA.room.mapURL || window.location.href,
             room_id: roomId,
-            entry_source: entrySource,
         });
         gtag("event", "session_start_custom", {
             room: roomId,
-            entry_source: entrySource,
         });
 
         console.info("GA4 loaded in main.ts");
