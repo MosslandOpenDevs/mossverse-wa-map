@@ -22,8 +22,8 @@ WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit]
 
 | Environment | URL |
 |---|---|
-| Office map | `https://dev.wa.moss.land/~/mossverse/office.wam` |
-| Conference map | `https://dev.wa.moss.land/~/mossverse/conference.wam` |
+| Office map | `https://play.wa.moss.land/~/mossverse/office.wam` |
+| Conference map | `https://play.wa.moss.land/~/mossverse/conference.wam` |
 
 ## Local Development
 
@@ -72,7 +72,7 @@ Repository settings -> Secrets and variables -> Actions:
 | Name | Value |
 |---|---|
 | `MAP_STORAGE_API_KEY` | Server `SECRET_KEY` |
-| `MAP_STORAGE_URL` | `https://dev.wa.moss.land/map-storage/` |
+| `MAP_STORAGE_URL` | `https://play.wa.moss.land/map-storage/` |
 | `UPLOAD_DIRECTORY` | `mossverse` |
 
 Notes:
@@ -100,7 +100,7 @@ npm run upload-only
 
 ```env
 UPLOAD_MODE=MAP_STORAGE
-MAP_STORAGE_URL=https://dev.wa.moss.land/map-storage/
+MAP_STORAGE_URL=https://play.wa.moss.land/map-storage/
 UPLOAD_DIRECTORY=mossverse
 ```
 
