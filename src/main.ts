@@ -1,6 +1,6 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
-const GA4_MEASUREMENT_ID = "G-MZ2G3PKPEK";
+const GA4_MEASUREMENT_ID = "G-YJK1MCF4EW";
 
 declare global {
   interface Window {
