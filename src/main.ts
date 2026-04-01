@@ -24,7 +24,9 @@ function initializeGa4(): void {
         window.dataLayer = window.dataLayer || [];
         function gtag(..._args: any[]) { window.dataLayer.push(arguments); }
         gtag("js", new Date());
-        gtag("config", GA4_MEASUREMENT_ID);
+        gtag("config", GA4_MEASUREMENT_ID, {
+            send_page_view: false,   
+        });
 
         const roomId = WA.room.id || "unknown";
         gtag("event", "page_view", {
