@@ -2,11 +2,22 @@
 
 const GA4_MEASUREMENT_ID = "G-MZ2G3PKPEK";
 
+// Typed surface for the GA4 dataLayer queue. Our code only ever pushes
+// `arguments` objects via the gtag() snippet below, so IArguments[] accurately
+// describes our usage. The GA4 script consumes this without using our types.
 declare global {
   interface Window {
-    dataLayer: any[];
+    dataLayer: IArguments[];
   }
 }
+
+// Constrains gtag call sites at compile time without changing the GA4
+// runtime snippet (which still pushes the real `arguments` object).
+type GtagArgs =
+    | ["js", Date]
+    | ["config", string, Record<string, unknown>?]
+    | ["event", string, Record<string, unknown>?]
+    | ["set", Record<string, unknown>];
 
 import "./roofs";
 import "./meeting/doors";
@@ -14,7 +25,7 @@ import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.info("Script started successfully");
 
-let currentPopup: any = undefined;
+let currentPopup: ReturnType<typeof WA.ui.openPopup> | undefined = undefined;
 
 function initializeGa4(): void {
     const script = document.createElement("script");
@@ -22,10 +33,12 @@ function initializeGa4(): void {
     script.async = true;
     script.onload = () => {
         window.dataLayer = window.dataLayer || [];
-        function gtag(..._args: any[]) { window.dataLayer.push(arguments); }
+        // GA4 official snippet: must push the live `arguments` object (not a
+        // copy) so GTM can introspect the call. Do not refactor to `_args`.
+        function gtag(..._args: GtagArgs) { window.dataLayer.push(arguments); }
         gtag("js", new Date());
         gtag("config", GA4_MEASUREMENT_ID, {
-            send_page_view: false,   
+            send_page_view: false,
         });
 
         const roomId = WA.room.id || "unknown";
