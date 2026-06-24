@@ -67,8 +67,14 @@ WA.onInit().then(() => {
     initializeGa4();
 
     WA.room.area.onEnter("clock").subscribe(() => {
+        // Close any popup left open by a prior enter first, so an overlapping or
+        // re-entrant enter (e.g. a teleport landing inside the area) can't orphan
+        // the previous handle and leak an un-closeable popup.
+        closePopup();
         const today = new Date();
-        const time = today.getHours() + ":" + today.getMinutes();
+        const hh = String(today.getHours()).padStart(2, "0");
+        const mm = String(today.getMinutes()).padStart(2, "0");
+        const time = hh + ":" + mm;
         currentPopup = WA.ui.openPopup("clockPopup", "It's " + time, []);
     });
 
