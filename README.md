@@ -27,6 +27,8 @@ WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit]
 
 ## Local Development
 
+This project targets Node.js 24 (see `.nvmrc`).
+
 ```bash
 npm install
 npm run dev
@@ -46,8 +48,11 @@ mossverse-wa-map/
 │   ├── main.ts
 │   ├── roofs.ts
 │   └── meeting/
+├── scripts/
+│   └── validate-tilemaps.mjs
 ├── app/
 │   └── app.ts
+├── .nvmrc
 ├── .env
 ├── .env.secret
 └── .github/workflows/
@@ -63,21 +68,23 @@ Notes:
 
 ### Automatic Deployment
 
-Pushing to `master` triggers GitHub Actions to build the maps and upload them to map-storage.
+Pushing to `prod` triggers GitHub Actions to build the maps and upload them to the production map-storage at `play.wa.moss.land`. The same workflow (`.github/workflows/build-and-deploy.yml`) also runs on `master` for the dev environment; it picks the production secrets when `github.ref_name == 'prod'`.
 
 ### Required GitHub Secrets
 
-Repository settings -> Secrets and variables -> Actions:
+Repository settings -> Secrets and variables -> Actions. Production deploys (the `prod` branch) read the `PROD_`-prefixed secrets:
 
 | Name | Value |
 |---|---|
-| `MAP_STORAGE_API_KEY` | Server `SECRET_KEY` |
-| `MAP_STORAGE_URL` | `https://play.wa.moss.land/map-storage/` |
+| `PROD_MAP_STORAGE_API_KEY` | Production server `SECRET_KEY` |
+| `PROD_MAP_STORAGE_URL` | `https://play.wa.moss.land/map-storage/` |
 | `UPLOAD_DIRECTORY` | `mossverse` |
+
+The `master` branch deploys to dev using the unprefixed `MAP_STORAGE_API_KEY` / `MAP_STORAGE_URL` secrets (with the same `UPLOAD_DIRECTORY`).
 
 Notes:
 
-- Keep `MAP_STORAGE_API_KEY` in GitHub Secrets only.
+- Keep the `*_MAP_STORAGE_API_KEY` values in GitHub Secrets only.
 - `MAP_STORAGE_URL` and `UPLOAD_DIRECTORY` can also be set locally through `.env`.
 
 ### Manual Deployment
@@ -115,6 +122,7 @@ MAP_STORAGE_API_KEY=your_server_secret_key
 | Command | Description |
 |---|---|
 | `npm run dev` | Start the local Vite development server |
+| `npm run validate-tilemaps` | Validate the `.tmj` tilemaps (auto-runs before `buildmap`) |
 | `npm run buildmap` | Build maps into `dist/` |
 | `npm run upload` | Build and upload maps |
 | `npm run upload-only` | Upload without rebuilding |
