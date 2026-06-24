@@ -56,7 +56,10 @@ jobs:
           fi
 
       - name: Deploy using WA Map Storage
-        if: ${{ env.UPLOAD_MODE == 'MAP_STORAGE' }}
+        # dev server (dev.wa.moss.land) is offline — skip the upload on master until it
+        # returns. The build still runs above, so pushes to master keep validating the code.
+        # prod is unaffected (ref_name != 'master'). Re-enable for master by dropping this guard.
+        if: ${{ env.UPLOAD_MODE == 'MAP_STORAGE' && github.ref_name != 'master' }}
         run: npm run upload-only
 
       - name: Deploy using Github Pages
