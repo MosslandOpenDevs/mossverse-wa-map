@@ -18,33 +18,20 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
-          node-version: "22.x"
+          node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
+          cache: "npm"
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run buildmap
-        continue-on-error: true
-        
-      - name: Debug - Check dist contents
-        run: |
-          echo "=== TMJ files in dist ==="
-          find dist -name "*.tmj" -exec sh -c 'echo "$1: $(stat --printf="%s" "$1") bytes"; head -c 100 "$1"' _ {} \;
-          echo ""
-          echo "=== All files in dist ==="
-          find dist -type f | head -30
-
-      - name: Debug - Check what closeBundle reads
-        run: |
-          echo "=== Line 183 of the plugin ==="
-          sed -n '175,195p' node_modules/wa-map-optimizer-vite/dist/index.js
 
       - name: Extract UPLOAD_MODE from .env
         run: |
@@ -71,12 +58,13 @@ jobs:
       - name: Deploy using WA Map Storage
         # dev server (dev.wa.moss.land) is offline — skip the upload on master until it
         # returns. The build still runs above, so pushes to master keep validating the code.
+        # prod is unaffected (ref_name != 'master'). Re-enable for master by dropping this guard.
         if: ${{ env.UPLOAD_MODE == 'MAP_STORAGE' && github.ref_name != 'master' }}
         run: npm run upload-only
 
       - name: Deploy using Github Pages
         if: ${{ env.UPLOAD_MODE == 'GH_PAGES' }}
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@132898c54c57c7cc6b80eb3a89968de8fc283505 # pinned releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
