@@ -24,6 +24,9 @@ const roofConfigs: RoofConfig[] = [
         layers: ["roof_office", "sign_office"],
     },
     {
+        // Also handled in src/meeting/doors.ts, which toggles the coworking door
+        // layers for this same area. The two files touch disjoint layers, so they
+        // don't conflict — but if you rename this area, update BOTH.
         area: "roof_coworking_area",
         layers: ["roof_coworking", "sign_coworking"],
     },

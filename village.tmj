@@ -1270,7 +1270,7 @@
                 {
                  "height":192.688091000968,
                  "id":947,
-                 "name":"fire5",
+                 "name":"fire6",
                  "properties":[
                         {
                          "name":"audioLoop",
@@ -1444,7 +1444,7 @@
                 {
                  "height":248.604,
                  "id":964,
-                 "name":"focus2",
+                 "name":"focus3",
                  "properties":[
                         {
                          "name":"focusable",

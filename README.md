@@ -27,6 +27,8 @@ WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit]
 
 ## Local Development
 
+This project targets Node.js 24 (see `.nvmrc`).
+
 ```bash
 npm install
 npm run dev
@@ -46,8 +48,11 @@ mossverse-wa-map/
 │   ├── main.ts
 │   ├── roofs.ts
 │   └── meeting/
+├── scripts/
+│   └── validate-tilemaps.mjs
 ├── app/
 │   └── app.ts
+├── .nvmrc
 ├── .env
 ├── .env.secret
 └── .github/workflows/
@@ -115,6 +120,7 @@ MAP_STORAGE_API_KEY=your_server_secret_key
 | Command | Description |
 |---|---|
 | `npm run dev` | Start the local Vite development server |
+| `npm run validate-tilemaps` | Validate the `.tmj` tilemaps (auto-runs before `buildmap`) |
 | `npm run buildmap` | Build maps into `dist/` |
 | `npm run upload` | Build and upload maps |
 | `npm run upload-only` | Upload without rebuilding |
