@@ -64,6 +64,13 @@ WA.onInit().then(() => {
     console.info("Scripting API ready");
     console.info("Player tags: ", WA.player.tags);
 
+    // Logged-in members get a teal outline so they're visually distinct from
+    // guests. Tags are guaranteed populated here (inside onInit).
+    if (WA.player.tags.includes("member")) {
+        WA.player.setOutlineColor(110, 231, 183) // brand teal
+            .catch((e) => console.error(e));
+    }
+
     initializeGa4();
 
     WA.room.area.onEnter("clock").subscribe(() => {
