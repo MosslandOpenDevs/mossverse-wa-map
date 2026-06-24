@@ -64,10 +64,15 @@ WA.onInit().then(() => {
     console.info("Scripting API ready");
     console.info("Player tags: ", WA.player.tags);
 
-    // Logged-in members get a teal outline so they're visually distinct from
-    // guests. Tags are guaranteed populated here (inside onInit).
-    if (WA.player.tags.includes("member")) {
-        WA.player.setOutlineColor(110, 231, 183) // brand teal
+    // Give logged-in players a colored name outline by tier so they're
+    // visually distinct from guests (and from each other). The outline color
+    // syncs to other players too. Holder outranks member. Tags are guaranteed
+    // populated here (inside onInit).
+    if (WA.player.tags.includes("holder")) {
+        WA.player.setOutlineColor(255, 215, 0) // gold — token/NFT holder
+            .catch((e) => console.error(e));
+    } else if (WA.player.tags.includes("member")) {
+        WA.player.setOutlineColor(110, 231, 183) // brand teal — member
             .catch((e) => console.error(e));
     }
 
