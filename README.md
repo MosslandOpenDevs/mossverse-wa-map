@@ -1,5 +1,7 @@
 # mossverse-wa-map
 
+> **Status of this repository:** **`Lifecycle: Beta`** (운영 중, 변동 가능) — per [MIP-1](https://agora.moss.land/proposals/6a85129f8be190cf5d2ebcc1), ratified 2026-09-02, and the [links.moss.land registry](https://links.moss.land/ecosystem-registry.json) entry `wa`. MIP-1 Annex A Beta. No second maintainer yet (Art. 3 exception, recorded here).
+
 WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit](https://github.com/workadventure/map-starter-kit).
 
 ## Related Repositories
