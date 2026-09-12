@@ -1,5 +1,12 @@
 # mossverse-wa-map
 
+<!-- opendevs-badges:start -->
+[![Lifecycle: Beta](https://img.shields.io/badge/Lifecycle-Beta-3b82f6?style=flat)](https://links.moss.land/ecosystem-registry.json)
+[![CI](https://github.com/MosslandOpenDevs/mossverse-wa-map/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/MosslandOpenDevs/mossverse-wa-map/actions/workflows/build-and-deploy.yml)
+[![Website: wa.moss.land](https://img.shields.io/badge/Website-wa.moss.land-2563eb?style=flat)](https://wa.moss.land/)
+[![License: mixed](https://img.shields.io/badge/License-mixed-64748b?style=flat)](#licensing)
+<!-- opendevs-badges:end -->
+
 > **Status of this repository:** **`Lifecycle: Beta`** (운영 중, 변동 가능) — per [MIP-1](https://agora.moss.land/proposals/6a85129f8be190cf5d2ebcc1), ratified 2026-09-02, and the [links.moss.land registry](https://links.moss.land/ecosystem-registry.json) entry `wa`. MIP-1 Annex A Beta. No second maintainer yet (Art. 3 exception, recorded here).
 
 WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit](https://github.com/workadventure/map-starter-kit).
