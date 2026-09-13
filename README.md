@@ -123,9 +123,17 @@ MAP_STORAGE_API_KEY=your_server_secret_key
 |---|---|
 | `npm run dev` | Start the local Vite development server |
 | `npm run validate-tilemaps` | Validate the `.tmj` tilemaps (auto-runs before `buildmap`) |
+| `npm run test:autodoors` | Check automatic-door compatibility (auto-runs before `buildmap`) |
 | `npm run buildmap` | Build maps into `dist/` |
 | `npm run upload` | Build and upload maps |
 | `npm run upload-only` | Upload without rebuilding |
+
+The `scripting-api-extra` patch in `patches/` ignores initial leave events introduced
+in WorkAdventure 1.31. Without it, a player joining outside a door zone can close
+a shared door another player is using. Actual movement events and the older
+undefined event payload remain supported. `npm ci` applies the patch through
+`patch-package`, and the build tests the installed library before producing assets.
+Keep the patch until an upstream version passes the same tests without it.
 
 ## Map Credits
 

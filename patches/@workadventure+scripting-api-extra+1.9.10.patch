@@ -1,0 +1,16 @@
+diff --git a/node_modules/@workadventure/scripting-api-extra/dist/Features/doors.js b/node_modules/@workadventure/scripting-api-extra/dist/Features/doors.js
+--- a/node_modules/@workadventure/scripting-api-extra/dist/Features/doors.js
++++ b/node_modules/@workadventure/scripting-api-extra/dist/Features/doors.js
+@@ -184,7 +184,11 @@
+             displayOpenDoorMessage();
+         }
+     }
+-    function onLeave() {
++    function onLeave(event) {
++        // WorkAdventure 1.31+ reports an initial leave to players outside the zone.
++        if (event?.reason === "initial") {
++            return;
++        }
+         inZone = false;
+         if (properties.getBoolean("autoClose")) {
+             WA.state[doorVariable.name] = false;
