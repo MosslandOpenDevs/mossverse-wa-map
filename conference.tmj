@@ -295,7 +295,7 @@
                          "value":true
                         }, 
                         {
-                         "name":"openWebsite",
+                         "name":"openTab",
                          "type":"string",
                          "value":"{{{ websiteURL }}}"
                         }, 
@@ -307,7 +307,7 @@
                         {
                          "name":"openWebsiteTriggerMessage",
                          "type":"string",
-                         "value":"Press SPACE to open Mossland Homepage"
+                         "value":"Press SPACE to open Mossland Homepage in a new tab"
                         }, 
                         {
                          "name":"silent",
@@ -380,7 +380,7 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"Test the website to embed with an iframe tester like https:\/\/iframetester.com\/"
+                         "value":"Website URL to open in a new browser tab"
                         }, 
                         {
                          "name":"label",
