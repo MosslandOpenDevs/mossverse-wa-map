@@ -1,5 +1,12 @@
 # mossverse-wa-map
 
+<!-- opendevs-badges:start -->
+[![Lifecycle: Beta](https://img.shields.io/badge/Lifecycle-Beta-3b82f6?style=flat)](https://links.moss.land/ecosystem-registry.json)
+[![CI](https://github.com/MosslandOpenDevs/mossverse-wa-map/actions/workflows/build-and-deploy.yml/badge.svg?branch=prod)](https://github.com/MosslandOpenDevs/mossverse-wa-map/actions/workflows/build-and-deploy.yml?query=branch%3Aprod)
+[![Website: wa.moss.land](https://img.shields.io/badge/Website-wa.moss.land-2563eb?style=flat)](https://wa.moss.land/)
+[![License: mixed](https://img.shields.io/badge/License-mixed-64748b?style=flat)](#licensing)
+<!-- opendevs-badges:end -->
+
 WorkAdventure maps for Mossverse, built on top of the official [map-starter-kit](https://github.com/workadventure/map-starter-kit).
 
 ## Related Repositories
